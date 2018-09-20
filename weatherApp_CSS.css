@@ -1,0 +1,12 @@
+#cityData{
+    margin-top: 100px;
+    margin-bottom: 300px;
+}
+
+#weatherIcon>img{
+    height: 75px;    
+}
+
+#summary{
+    font-style: italic;
+}
