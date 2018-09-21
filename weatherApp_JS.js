@@ -1,112 +1,128 @@
-localStorage.clear();
+var inputListener = new Vue({
+    el: '#searchField',
+    data: {
+        userInput:'',
+        logoShow: true,
+        variable: 5
+        
+    },
+    methods: {
 
-var fetchTime = localStorage.getItem("fetchTime");
-var currentTime = Date.now();
-var elapsedTimeInHours = (currentTime-fetchTime)/(1000*60*60);
-var checkDataAvailability = JSON.parse(localStorage.getItem("weatherData"));
+        sendInput: function () {
+            
+            console.log("functions launched!")
+            fetchData();
+            
+            displayData.setDate();
+            
+            this.userInput='';
+            this.logoShow=false;
+        
+        },
+        
+        decrementVariable: function(){
+            this.variable
+        }
+    }
+})
 
 
-if ((checkDataAvailability == null) || (elapsedTimeInHours>24)){
-    console.log("fetching data");
-    fetch ("https://api.myjson.com/bins/i8run", {
+
+function createAPICall() {
+
+    var weatherAPI = "http://api.openweathermap.org/data/2.5/weather?q=";
+    var userQuery = inputListener.userInput;
+    var apiOptions = "&units=metric";
+    var myAPIKey = "&APPID=01cc3668bf0bfa5175682312eac66c93";
+    
+    return weatherAPI + userQuery + apiOptions + myAPIKey;
+}
+
+
+
+
+
+function fetchData() {
+    console.log("fetching data with the following query: " + inputListener.userInput);
+
+    fetch(createAPICall(), {
         method: "GET",
-    //    headers: {'X-API-Key': "Key goes inside the quotes"}
+        //    headers: {'X-API-Key': "Key goes inside the quotes"}
 
-    }).then(function (response){
-        if (response.ok){return response.json();}
+    }).then(function (response) {
+        if (response.ok) {
+            return response.json();
+        }
         throw new Error(response.statusText);
 
-    }).then(function (json){
-        window.localStorage.setItem("fetchTime", Date.now());
-        var receivedData = json;
-        
-        window.localStorage.setItem("weatherData", JSON.stringify(receivedData));
-        var storedData = JSON.parse(localStorage.getItem("weatherData"));
-        var weather = storedData.list;
-        
-        callVue (weather);
-        displayDate();
+    }).then(function (json) {
+        var weatherData = json;
 
-    }).catch(function(error){console.log("Request failed: " + error.message);});
-}
+        displayData.setWeather(weatherData);
+        //displayDate();
 
-else {
-        
-    console.log(" retreiving data from local storage ");
-    var storedData = JSON.parse(localStorage.getItem("weatherData"));
-    var weather = storedData.list;
-
-    callVue (weather);
-    displayDate();
+    }).catch(function (error) {
+        console.log("Request failed: " + error.message);
+    });
 }
 
 
 
-function displayDate(){
-    
-    var d = new Date().toDateString();
-    
-    document.getElementById("date").textContent = d;
-}
 
-function callVue (weather){  
 
-    new Vue({
-    
-    el: "#pageBody",
-    
-    data: {
-            weather: weather,
-            dropDownBox: 'Yafran',
+var displayData = new Vue({
+
+        el: "#cityData",
+
+        data: {
+            weather: '',
             iconURL: 'something',
-        
-            searchBox: ''
-        
-    },
-    
-    methods: {
-        
-        setIconURL: function (city){
-            this.iconURL= "http://openweathermap.org/img/w/"+city.weather[0].icon+".png";
-            return this.iconURL;
-        }
-                       
-    },
-    
-    computed: {
-                 
-       filteredBooks: function (){
-            return this.myBooks.filter((aBook)=>{
-                return (aBook.titulo.toLowerCase().includes(this.searchBox.toLowerCase())) || (aBook.descripcion.toLowerCase().includes(this.searchBox.toLowerCase())) ;
-            })
-        } 
-    }    
+            dateToday: "some day"
 
-});
+        },
 
-}
+        methods: {
+            
+            setWeather: function(weatherData){
+                this.weather = weatherData;
+            },
+            
+            setDate: function(){
+                this.dateToday= new Date().toDateString();
+            },
+                        
+            setIconURL: function (weather) {
+                this.iconURL = "http://openweathermap.org/img/w/" + weather.weather[0].icon + ".png";
+                return this.iconURL;
+            }
+
+        },
+
+//        computed: {
+//
+//            filteredBooks: function () {
+//                return this.myBooks.filter((aBook) => {
+//                    return (aBook.titulo.toLowerCase().includes(this.searchBox.toLowerCase())) || (aBook.descripcion.toLowerCase().includes(this.searchBox.toLowerCase()));
+//                })
+//            }
+//        }
+
+    });
 
 
 
-var towns =cities.features[2].properties.city; //this code is correct
 
-console.log(towns);
+// var towns = cities.features[2].properties.city; //this code is correct
 
-function justGetAllTowns (){
-    var allTowns =[];
-    for (i=0;i<cities.features.length;i++){
+// console.log(towns);
+
+function justGetAllTowns() {
+    var allTowns = [];
+    for (i = 0; i < cities.features.length; i++) {
         allTowns.push(cities.features[i].properties.city);
-        
+
     }
     return allTowns;
 }
 
-console.log(justGetAllTowns());     // this code is also correct
-
-
-
-
-
-
-
-
+// console.log(justGetAllTowns());     // this code is also correct

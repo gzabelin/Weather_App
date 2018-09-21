@@ -2,14 +2,14 @@
 <html>
 
 <head>
-    
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i|Pacifico" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa:300,700|Lobster+Two:400i,700i|Poiret+One" rel="stylesheet">
 
     <link rel="stylesheet" href="weatherApp_CSS.css">
 
@@ -17,79 +17,22 @@
 
 <body>
     <div id="pageBody" class="container">
-        
-<!--
-        <div id="searchContainer" class="">
-            <input type="text" name="searchbox" placeholder="enter city name..." class="form-control" v-model="searchBox">
-        </div>
--->
-        
-        
-        <div class="header">
-            <h1 class="text-center">PICK YOUR CITY!</h1>
-            <div style="display: flex; justify-content: center;">
-                <select v-model="dropDownBox">
-                    <option v-for="item in weather" :value="item.name">{{item.name}}</option>
-                </select>
-            </div>
-        </div>
-        
-        
-        
-        <template v-for="city in weather">
-            <template v-if="city.name==dropDownBox">
-                <div id="cityData">
-                    <div><h3 id="date" class="text-center">today's date</h3></div>
-                    
-                    <div id="weatherIcon" class="col-md-3">
-                        <img class="pull-right" v-bind:src="setIconURL(city)">
-                    </div>
-                    
-                    <div class="col-md-6 text-center"><h2>{{city.name}}</h2></div>
-                    <div class="col-md-3"><h2>{{city.main.temp}}&deg;C</h2></div>
-                    <div class="col-sm-12 text-center"><h3 id="summary">"{{city.weather[0].description}}"</h3></div>
 
-                    <div class="row">
-                        <span class="col-md-5 text-right">humidity:</span>
-                        <span class="col-md-2 text-center" style="background-color: lightgoldenrodyellow">{{city.main.humidity}}</span>
-                        <span class="col-md-5">ew, sweaty!!</span>
-                    </div>
 
-                    <div class="row">
-                        <span class="col-md-5 text-right">wind speed:</span>
-                        <span class="col-md-2 text-center" style="background-color: skyblue">{{city.wind.speed}}</span>
-                        <span class="col-md-5">not a breeze :(</span>
-                    </div>
 
+
+
+        <div id="searchField">
+
+
+            <div id="logo" class="container" v-if="logoShow==true">
+                <div>
+                    <img src="umbrella_orang.jpg" style="height: 100px;">
                 </div>
-            </template>
-        </template>
-            
-
-        
-        
-        
-        
-<!--
-        <div>
-            <p>city name: {{weather[0].name}}</p>
-            <p>temperature: {{weather[0].main.temp}}</p>
-            <p>humidity: {{weather[0].main.humidity}}</p>
-            <p>wind speed: {{weather[0].wind.speed}}</p>
-            <p>summary: {{weather[0].weather[0].description}}</p>
-            <p>icon code: {{weather[0].weather[0].icon}}</p>
-        </div>            
--->
-                    
- 
-                    
-                    
-                    
-                    
-
-                    
-                    
-      
+                <div>
+                    <h1>weather.ly</h1>
+                </div>
+            </div>
 
 
 
@@ -97,19 +40,78 @@
 
 
 
-    <div class="panel-footer text-center">
-        <p> &copy; weather.ly 2018 | No Rights Reserved</p>
-        <p><em>A shitty app made by hipsters for technologically-impaired normies</em></p>
+            <h1 id="pickCity" class="text-center">PICK YOUR CITY!</h1>
+
+            <div id="searchBox">
+                <input type="search" class="form-control" v-model="userInput" @keyup.enter="sendInput" placeholder="no typos pls!!!">
+                <button id="searchBtn" @click="sendInput"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/VisualEditor_-_Icon_-_Search-big.svg/1024px-VisualEditor_-_Icon_-_Search-big.svg.png" style="height: 20px;"></button>
+
+
+            </div>
+
+        </div>
+
+
+
+
+        <div id="cityData" v-if="weather!==''">
+            <div>
+                <h3 id="date" class="text-center">{{dateToday}}</h3>
+            </div>
+
+            <div id="weatherIcon" class="col-xs-3">
+                <img class="pull-right" v-bind:src="setIconURL(weather)">
+            </div>
+
+            <div class="col-xs-6 text-center">
+                <h2 id="city">{{weather.name}}, {{weather.sys.country}}</h2>
+            </div>
+            <div class="col-xs-3">
+                <h2 id="temp">{{weather.main.temp}}&deg;C</h2>
+            </div>
+            <div class="col-xs-12 text-center">
+                <h3 id="summary">- {{weather.weather[0].description}} -</h3>
+            </div>
+
+            <div class="row">
+                <span class="col-xs-5 text-right">humidity:</span>
+                <div class="col-xs-2 text-center"><span class="colorBox"style="background-color: lightgoldenrodyellow">{{weather.main.humidity}}</span></div>
+                <span class="col-xs-5">ew, sweaty!!</span>
+            </div>
+
+            <div class="row">
+                <span class="col-xs-5 text-right">wind speed:</span>
+                <div class="col-xs-2 text-center"><span class="colorBox"style="background-color: skyblue">{{weather.wind.speed}}</span></div>
+    
+                <span class="col-xs-5">not a breeze :(</span>
+            </div>
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+        <div id="footer" class="text-center">
+            <p> &copy; weather.ly 2018 | No Rights Reserved</p>
+            <p>A shitty app made by hipsters for technologically-impaired normies</p>
+        </div>
+
     </div>
 
-</div>
-
+    <!--
     <script type="text/javascript" src="100k-cities.js"></script>
     <script type="text/javascript" src="city.list.json"></script>
+-->
     <script type="text/javascript" src="weatherApp_JS.js"></script>
-    
-    
-        
+
+
+
 </body>
 
 </html>

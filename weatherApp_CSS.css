@@ -1,12 +1,95 @@
-#cityData{
-    margin-top: 100px;
-    margin-bottom: 300px;
+#searchField{
+    margin-bottom: 30px;
 }
+
+#cityData{
+    margin-top: 70px;
+    margin-bottom: 200px;
+}
+
 
 #weatherIcon>img{
     height: 75px;    
 }
 
-#summary{
-    font-style: italic;
+
+#logo{
+    margin-top: 100px;
+    color: #ff6600;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
 }
+
+#pickCity{
+    margin-top: 40px;
+    font-family: 'Poiret One', cursive;
+}
+
+#searchBox {
+    display: flex; 
+    justify-content: center;
+}
+
+
+#logo>div {
+    display: flex; 
+    grid-row: 1/1;
+}
+
+#logo>div:first-child{
+    justify-content: flex-end;
+}
+#logo>div:last-child{
+    justify-content: flex-start;
+}
+
+
+
+#logo > div > h1{
+    font-family: 'Comfortaa', cursive;
+    font-weight: bold;
+    margin:0;
+    font-size: 80px;
+    display: flex;
+    padding-top: 10px;
+}
+
+#footer>p, input{
+  font-family: 'Comfortaa', cursive;     
+ 
+}
+
+#city, #temp, span {
+    font-family: 'Comfortaa', cursive;
+/*    font-style: italic;*/
+    font-weight: bold;
+}
+
+#date {
+    font-family: 'Poiret One', cursive;
+    text-transform: uppercase;
+
+}
+
+#summary{
+    font-family: 'Lobster Two', cursive;
+    padding-bottom: 20px;
+    font-size: 33px;
+}
+
+#searchBox>input{
+    max-width: 200px;
+}
+
+.colorBox{
+/*
+    padding-left: 15px;
+    padding-right:15px;
+*/
+    width: 40px;
+    
+}
+
+
+
+
