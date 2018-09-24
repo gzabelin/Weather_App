@@ -4,19 +4,26 @@ var inputListener = new Vue({
         userInput:'',
         logoShow: true,
         hintShow: false,
+        kekShow: false,
         
     },
     methods: {
 
         sendInput: function () {
             
-            console.log("functions launched!")
-            fetchData();
-            
-            displayData.setDate();
-            
-            this.userInput='';
-            this.logoShow=false;
+            if (this.userInput ==="kekistan"){
+                this.kekShow = true;
+                
+            }else{
+                this.kekShow = false;
+                console.log("functions launched!")
+                fetchData();
+
+                displayData.setDate();
+
+                this.userInput='';
+                this.logoShow=false;
+            }
         
         }
         
@@ -50,6 +57,7 @@ function fetchData() {
     }).then(function (response) {
         if (response.ok) {
             return response.json();
+             
         }
         throw new Error(response.statusText);
 
@@ -57,10 +65,13 @@ function fetchData() {
         var weatherData = json;
 
         displayData.setWeather(weatherData);
-        //displayDate();
+        document.getElementById("angeryCat").setAttribute("class", "hidden");
 
     }).catch(function (error) {
         console.log("Request failed: " + error.message);
+        document.getElementById("angeryCat").removeAttribute("class");
+       // alert("You have commited a typo >:( \nTry again, correctly this time.");
+        
     });
 }
 
@@ -113,24 +124,7 @@ var displayData = new Vue({
                 return this.linkText;
             },
             
-//            sethumidityText: function(weather){
-//                if(weather.main.humidity<25){
-//                    this.humidityText = "dry air = itchy times!";
-//                }
-//                else if (weather.main.humidity>70){this.humidityText = "ewww! sweaty!!!"}
-//                else {this.humidityText = "comfortable humidity"};
-//                return this.humidityText;
-//            },
-//            
-//            setwindText: function(weather){
-//                if(weather.wind.speed<5){
-//                    this.humidityText = "not a breeze";
-//                }
-//                else if (weather.wind.speed>10){this.windText = "windy!"}
-//                else if (weather.wind.speed>17){this.windText = "HOLY SHIT YOU'RE FUCKED!!!"}
-//                else {this.windText = "freshhh"};
-//                return this.windText;
-//            }
+
 
         },
 
@@ -143,23 +137,30 @@ var displayData = new Vue({
 //            }
             
             sethumidityText: function(weather){
-                if(weather.weather.main.humidity<25){
+                if(weather.weather.main.humidity<=25){
                     this.humidityText = "dry air = itchy times!";
                 }
-                else if (weather.weather.main.humidity>70){this.humidityText = "ewww! sweaty!!!"}
+                else if (weather.weather.main.humidity>=70){this.humidityText = "ew, sweaty!"}
                 else {this.humidityText = "comfy!"};
                 return this.humidityText;
             },
             
             setwindText: function(weather){
-                if(weather.weather.wind.speed<5){
-                    this.humidityText = "not a breeze";
+                
+                var wind = weather.weather.wind.speed; 
+                
+                if(wind<=5){
+                    this.windText = "not a breeze"
                 }
-                else if (weather.weather.wind.speed>10){this.windText = "windy!"}
-                else if (weather.weather.wind.speed>17){this.windText = "HOLY SHIT YOU'RE FUCKED!!!"}
-                else {this.windText = "freshhh"};
+                else if (wind>5 && wind<10){this.windText = "freshhh"}
+                                
+                else if (wind>=10){this.windText = "windy!"}
+                else if (wind>=17){this.windText = "HOLY SHIT YOU'RE FUCKED!!!"}
                 return this.windText;
-            }
+                         
+            }            
+                         
+
             
             
             

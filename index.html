@@ -10,6 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
     <link href="https://fonts.googleapis.com/css?family=Comfortaa:300,700|Lobster+Two:400i,700i|Poiret+One" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Paytone+One" rel="stylesheet">
 
     <link rel="stylesheet" href="weatherApp_CSS.css">
 
@@ -33,6 +34,8 @@
                     <h1>weather.ly</h1>
                 </div>
             </div>
+            
+            <div v-if="kekShow==true" id="easterEgg"><img src="https://i.imgur.com/JAyI29a.jpg"></div>
 
 
 
@@ -48,6 +51,8 @@
             </div>
                 <p id="hint" class="text-center" v-if="hintShow==true">Try adding a country code, eg: "Berlin, US"</p>
         </div>
+        
+        <div id="angeryCat" class="hidden"><p>YOU HAVE COMMITED A TYPO,<br> WHEN WE POLITELY ASKED YOU NOT TO</p><img src="https://i.imgur.com/RBmn7VY.png"><p>TRY AGAIN, CORRECTLY THIS TIME!</p></div>
 
 
 
@@ -80,7 +85,7 @@
 
             <div class="row">
                 <span class="col-xs-5 text-right">wind speed:</span>
-                <div class="col-xs-2 text-center"><span id="windBox" class="colorBox">{{weather.wind.speed}}</span></div>
+                <div class="col-xs-2 text-center"><span id="windBox" class="colorBox">{{weather.wind.speed}} m/s</span></div>
     
                 <span class="col-xs-5">{{setwindText}}</span>
             </div>
@@ -88,7 +93,7 @@
             
             <div class="row">
                 <span class="col-xs-5 text-right">humidity:</span>
-                <div class="col-xs-2 text-center"><span id="humidityBox" class="colorBox">{{weather.main.humidity}}</span></div>
+                <div class="col-xs-2 text-center"><span id="humidityBox" class="colorBox">{{weather.main.humidity}}%</span></div>
                 <span class="col-xs-5">{{sethumidityText}}</span>
             </div>
 
@@ -111,8 +116,10 @@
     </div>
 
     
-<!--    <script type="text/javascript" src="100k-cities.js"></script>-->
-<!--    <script type="text/javascript" src="city.list.js"></script>-->
+<!--
+    <script type="text/javascript" src="100k-cities.js"></script>
+    <script type="text/javascript" src="city.list.js"></script>
+-->
 
     <script type="text/javascript" src="weatherApp_JS.js"></script>
 <!--    <script type="text/javascript" src="city-Calculations.js"></script>-->

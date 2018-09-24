@@ -59,6 +59,10 @@
  
 }
 
+#footer {
+    margin-top: 25px;
+}
+
 #city, #temp, span {
     font-family: 'Comfortaa', cursive;
 /*    font-style: italic;*/
@@ -108,6 +112,22 @@
 
 #humidityBox{
 /*    background-color: lightgoldenrodyellow;*/
+}
+
+#angeryCat{
+/*    display: table-cell;*/
+    text-align: center;
+    width: 100%;
+}
+
+#angeryCat>p{
+    font-size: 30px;
+    font-family: 'Paytone One', sans-serif;
+}
+
+#easterEgg{
+    text-align: center;
+    margin-top: 40px;
 }
 
 
