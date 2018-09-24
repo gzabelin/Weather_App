@@ -81,6 +81,18 @@
     max-width: 200px;
 }
 
+#searchBox>button{
+    break-after: always;
+}
+#hint{
+    max-width: 300px;
+    font-family: 'Comfortaa', cursive;
+    font-size: 14px;
+    color: #ccc;
+    min-width: 100%;
+}
+
+
 .colorBox{
 /*
     padding-left: 15px;
@@ -90,6 +102,12 @@
     
 }
 
+#windBox{
+/*    background-color: skyblue;*/
+}
 
+#humidityBox{
+/*    background-color: lightgoldenrodyellow;*/
+}
 
 

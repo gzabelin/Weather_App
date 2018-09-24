@@ -3,7 +3,7 @@ var inputListener = new Vue({
     data: {
         userInput:'',
         logoShow: true,
-        variable: 5
+        hintShow: false,
         
     },
     methods: {
@@ -18,11 +18,9 @@ var inputListener = new Vue({
             this.userInput='';
             this.logoShow=false;
         
-        },
-        
-        decrementVariable: function(){
-            this.variable
         }
+        
+      
     }
 })
 
@@ -77,7 +75,13 @@ var displayData = new Vue({
         data: {
             weather: '',
             iconURL: 'something',
-            dateToday: "some day"
+            iframeURL: 'some url',
+            dateToday: "some day",
+            showMap: false,
+            linkText: 'Open Map',
+            humidityText: '',
+            windText: ''
+            
 
         },
 
@@ -94,35 +98,82 @@ var displayData = new Vue({
             setIconURL: function (weather) {
                 this.iconURL = "http://openweathermap.org/img/w/" + weather.weather[0].icon + ".png";
                 return this.iconURL;
-            }
+            },
+            
+            setiframeURL: function (weather) {
+                this.iframeURL ="http://maps.google.com/maps?q=" + weather.name + "+" + weather.sys.country + "&z=10&output=embed"
+                return this.iframeURL;
+            },
+            
+            setLinkText: function(){
+                if(this.showMap==false){
+                    this.linkText = "Open Map";
+                }
+                else {this.linkText = "Close Map"};
+                return this.linkText;
+            },
+            
+//            sethumidityText: function(weather){
+//                if(weather.main.humidity<25){
+//                    this.humidityText = "dry air = itchy times!";
+//                }
+//                else if (weather.main.humidity>70){this.humidityText = "ewww! sweaty!!!"}
+//                else {this.humidityText = "comfortable humidity"};
+//                return this.humidityText;
+//            },
+//            
+//            setwindText: function(weather){
+//                if(weather.wind.speed<5){
+//                    this.humidityText = "not a breeze";
+//                }
+//                else if (weather.wind.speed>10){this.windText = "windy!"}
+//                else if (weather.wind.speed>17){this.windText = "HOLY SHIT YOU'RE FUCKED!!!"}
+//                else {this.windText = "freshhh"};
+//                return this.windText;
+//            }
 
         },
 
-//        computed: {
-//
+        computed: {
+
 //            filteredBooks: function () {
 //                return this.myBooks.filter((aBook) => {
 //                    return (aBook.titulo.toLowerCase().includes(this.searchBox.toLowerCase())) || (aBook.descripcion.toLowerCase().includes(this.searchBox.toLowerCase()));
 //                })
 //            }
-//        }
+            
+            sethumidityText: function(weather){
+                if(weather.weather.main.humidity<25){
+                    this.humidityText = "dry air = itchy times!";
+                }
+                else if (weather.weather.main.humidity>70){this.humidityText = "ewww! sweaty!!!"}
+                else {this.humidityText = "comfy!"};
+                return this.humidityText;
+            },
+            
+            setwindText: function(weather){
+                if(weather.weather.wind.speed<5){
+                    this.humidityText = "not a breeze";
+                }
+                else if (weather.weather.wind.speed>10){this.windText = "windy!"}
+                else if (weather.weather.wind.speed>17){this.windText = "HOLY SHIT YOU'RE FUCKED!!!"}
+                else {this.windText = "freshhh"};
+                return this.windText;
+            }
+            
+            
+            
+            
+        }
 
     });
 
 
 
 
-// var towns = cities.features[2].properties.city; //this code is correct
 
-// console.log(towns);
 
-function justGetAllTowns() {
-    var allTowns = [];
-    for (i = 0; i < cities.features.length; i++) {
-        allTowns.push(cities.features[i].properties.city);
 
-    }
-    return allTowns;
-}
 
-// console.log(justGetAllTowns());     // this code is also correct
+
+
