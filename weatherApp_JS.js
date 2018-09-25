@@ -35,7 +35,7 @@ var inputListener = new Vue({
 
 function createAPICall() {
 
-    var weatherAPI = "http://api.openweathermap.org/data/2.5/weather?q=";
+    var weatherAPI = "https://api.openweathermap.org/data/2.5/weather?q=";
     var userQuery = inputListener.userInput;
     var apiOptions = "&units=metric";
     var myAPIKey = "&APPID=01cc3668bf0bfa5175682312eac66c93";
