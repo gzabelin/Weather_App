@@ -2,9 +2,11 @@ var inputListener = new Vue({
     el: '#searchField',
     data: {
         userInput:'',
+        inputLength: 0,
         logoShow: true,
         hintShow: false,
         kekShow: false,
+        keksrc: "https://i.imgur.com/JAyI29a.jpg"
         
     },
     methods: {
@@ -25,9 +27,21 @@ var inputListener = new Vue({
                 this.logoShow=false;
             }
         
-        }
+        },
+
+            
         
       
+    },
+    
+    computed: {
+        
+        suggestions: function () {
+            return biggestTowns.filter((aCity) => {
+                return (aCity.toLowerCase().includes(this.userInput.toLowerCase()));
+            })
+        },
+
     }
 })
 
@@ -35,7 +49,7 @@ var inputListener = new Vue({
 
 function createAPICall() {
 
-    var weatherAPI = "http://api.openweathermap.org/data/2.5/weather?q=";
+    var weatherAPI = "https://api.openweathermap.org/data/2.5/weather?q=";
     var userQuery = inputListener.userInput;
     var apiOptions = "&units=metric";
     var myAPIKey = "&APPID=01cc3668bf0bfa5175682312eac66c93";
@@ -129,12 +143,6 @@ var displayData = new Vue({
         },
 
         computed: {
-
-//            filteredBooks: function () {
-//                return this.myBooks.filter((aBook) => {
-//                    return (aBook.titulo.toLowerCase().includes(this.searchBox.toLowerCase())) || (aBook.descripcion.toLowerCase().includes(this.searchBox.toLowerCase()));
-//                })
-//            }
             
             sethumidityText: function(weather){
                 if(weather.weather.main.humidity<=25){
@@ -159,15 +167,11 @@ var displayData = new Vue({
                 return this.windText;
                          
             }            
-                         
-
-            
-            
-            
-            
         }
 
     });
+
+
 
 
 
