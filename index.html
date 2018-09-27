@@ -8,6 +8,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    
+<!--    nah, not gonna use v-select-->
+<!--    <script src="https://unpkg.com/vue-select@latest"></script>-->
 
     <link href="https://fonts.googleapis.com/css?family=Comfortaa:300,700|Lobster+Two:400i,700i|Poiret+One" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Paytone+One" rel="stylesheet">
@@ -37,28 +40,48 @@
             
             <div v-if="kekShow==true" id="easterEgg"><img :src="keksrc"></div>
             
-            <div id="angeryCat" class="hidden"><p>YOU HAVE COMMITED A TYPO,<br> WHEN WE POLITELY ASKED YOU NOT TO</p><img src="https://i.imgur.com/RBmn7VY.png"><p>TRY AGAIN, CORRECTLY THIS TIME!</p></div>
+            <div id="angeryCat" class="hidden"><p>YOU HAVE COMMITED A TYPO,<br> WHEN WE POLITELY ASKED YOU NOT TO</p><img src="https://i.imgur.com/RBmn7VY.png"><p id="wtf">WTF IS '{{errorMsg}}' ?!</p><p>TRY AGAIN, CORRECTLY THIS TIME!</p></div>
 
 
             <h1 id="pickCity" class="text-center">PICK YOUR CITY!</h1>
-
             <div id="searchBox">
-                <input type="search" class="form-control" v-model="userInput" @keyup.enter="sendInput" @click="hintShow=!hintShow" placeholder="no typos pls">
+                <input type="search" class="form-control" v-model="userInput" @keyup.enter="sendInput" @click="hintShow=!hintShow" placeholder="no typos pls" @keydown.down="optNo++, usedArrows=true" @keydown.up="optNo--, usedArrows=true" @keydown.shift.enter="userInput=suggestions[optNo]" @keydown.enter="decideInput" @input="unuseArrows()">
                 
                 <button id="searchBtn" @click="sendInput"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/VisualEditor_-_Icon_-_Search-big.svg/1024px-VisualEditor_-_Icon_-_Search-big.svg.png" style="height: 20px;"></button>        
         
             </div>
             
+            <div id="parentbox">
+            <div id="hoverbox" @mouseover="unuseArrows()"> 
             <template v-if="userInput.length>2" v-for="aCity in suggestions">
-                    <div id="suggestionContainer">
-                        <ul id="citySuggestions" @click="userInput=aCity">
-                            <li>{{aCity}}</li>
+                    <div id="suggestionContainer" >
+                        <ul id="citySuggestions" @click.keydown="userInput=aCity" @click.keyup="sendInput" >
+                            <li :class="{selectedOption: aCity==suggestions[optNo]}" >{{aCity}}</li>
                         </ul>
                     </div>
 
             </template>
+            </div>
+            </div>
             
             
+            
+            
+            
+            
+<!--
+        Works Excellent with pre-defined options. Not so well with user input
+            
+            <div id="searchBox">
+                
+                <v-select id="vSelect" :label="aCity" :options="suggestions" v-model="userInput" placeholder="no typos pls" @keyup.enter="sendInput"></v-select>
+                
+                <button id="searchBtn" @click="sendInput"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/VisualEditor_-_Icon_-_Search-big.svg/1024px-VisualEditor_-_Icon_-_Search-big.svg.png" style="height: 20px;"></button>
+        
+            </div>
+-->
+
+
 
             
             

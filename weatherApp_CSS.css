@@ -135,7 +135,7 @@
 
     display: flex; 
     flex-direction: column;
-    margin-top: 1px;
+    margin-top: 0px;
     
 }
 
@@ -161,6 +161,22 @@
     font-family: 'Comfortaa', cursive;
     
 }
+
+#parentbox {
+    display: flex;
+    position: relative;
+    justify-content: center;
+}
+
+#hoverbox {
+    position: absolute;
+    z-index: 10;
+}
+
+#citySuggestions{
+    background-color: white;
+}
+
 
 @media only screen and (max-width: 600px) {
     
@@ -201,6 +217,35 @@
     
 }
 
+
+
+
+#vSelect{
+    width: 200px;
+
+}
+
+.selectedOption{
+    
+    background-color: #ff6600;
+    color: white;
+    font-weight: bold;
+}
+
+li:hover {
+    background-color: #ff6600;
+    color: white;
+    font-weight: bold;
+    
+}
+
+#wtf{
+    
+    color: white;
+    margin-top: -40px;
+    font-size: 15px;
+    margin-bottom: 0;
+}
 
 
 

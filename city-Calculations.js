@@ -88,9 +88,12 @@ function compareCityLists (){
     };
 
     
-    var suggestedCities = Array.from(matchingCities);
+//    var suggestedCities = Array.from(matchingCities);
+//    
+//    return suggestedCities;
     
-    return suggestedCities;
+    
+    return matchingCities;
 }
 
 
@@ -119,7 +122,7 @@ function findExcludedCities (){
     
 }
 
-//console.log(findExcludedCities());
+console.log(findExcludedCities());
 
 
 ////////this works!!!
@@ -130,6 +133,57 @@ function findExcludedCities (){
 
 /// my next problem... the excluded cities dont always yield a result when inserted into the API search query because of spelling. Example: "Āddīs Ābebā"... not only because of special characters but also because of spelling. 
 
+
+
+/// function to feed all excluded cities to fetch and see if it works
+
+
+
+
+
+function checkCitySpelling (list){
+    
+    var acceptedSpelling=[];
+    var unacceptedSpelling=[];
+    
+        
+    for (i=0; i<list.length; i++){
+        
+        console.log("checking city: " + list[i]);
+        
+        var apiCall = "https://api.openweathermap.org/data/2.5/weather?q="+list[i]+"&APPID=01cc3668bf0bfa5175682312eac66c93"
+        
+        fetch(apiCall, {
+            method: "GET",
+
+        }).then(function (response) {
+            if (response.ok) {
+                return response.json();
+
+            }
+            throw new Error(response.statusText);
+
+        }).then(function (json) {
+            console.log("success, adding city: " + list[i]);
+            acceptedSpelling.push(list[i]);
+
+        }).catch(function (error) {
+            console.log("Request failed: " + error.message);
+            unacceptedSpelling.push(list[i]);
+
+        });
+        
+    }
+    
+    console.log("finished checking spelling");
+    
+    return acceptedSpelling;
+    
+   
+    
+}
+
+checkCitySpelling(findExcludedCities());
 
 
 

@@ -1,19 +1,27 @@
+
+
+// <v-select> component. fuck this guy :D. 
+//Vue.component('v-select', VueSelect.VueSelect);
+
+
 var inputListener = new Vue({
     el: '#searchField',
     data: {
         userInput:'',
-        inputLength: 0,
         logoShow: true,
         hintShow: false,
         kekShow: false,
-        keksrc: "https://i.imgur.com/JAyI29a.jpg"
+        keksrc: "https://i.imgur.com/JAyI29a.jpg",
+        optNo: -1,
+        usedArrows: false,
+        errorMsg: '',
         
     },
     methods: {
 
         sendInput: function () {
-            
-            if (this.userInput ==="kekistan"){
+            if (this.userInput =="kekistan"){
+                console.log("kek detected");
                 this.kekShow = true;
                 
             }else{
@@ -23,11 +31,18 @@ var inputListener = new Vue({
 
                 displayData.setDate();
 
+                this.errorMsg=this.userInput.toUpperCase();
                 this.userInput='';
                 this.logoShow=false;
+                this.optNo = -1;
+                this.usedArrows=false;
             }
         
         },
+        unuseArrows: function () {
+            this.usedArrows = false;
+            this.optNo = -1;
+        }
 
             
         
@@ -41,8 +56,18 @@ var inputListener = new Vue({
                 return (aCity.toLowerCase().includes(this.userInput.toLowerCase()));
             })
         },
+        
+        decideInput: function () {
+            if(this.usedArrows == true){
+                var x = document.querySelector(".selectedOption").textContent;
+                this.userInput=x;
+            }
+        },
+        
 
     }
+    
+    
 })
 
 
@@ -176,6 +201,16 @@ var displayData = new Vue({
 
 
 
+// This is an attempt to make <v-select> work after I press enter. 
+//
+//document.getElementById("searchBox").addEventListener("keyup", function(event) {
+//    event.preventDefault();
+//    if (event.keyCode === 13) {
+//        console.log("eventlistener -- activated");
+//        inputListener.sendInput();
+//    }
+//});
+//
 
 
 
