@@ -113,16 +113,19 @@ function findExcludedCities (){
         for (j=0; j<biggestTowns.length; j++){
             if (biggestTowns[j].slice(-0, -4)==excludedCities[x]){
                 excludedCities.splice(x, 1);
-                console.log("city removed");
                 break;
                 }
         }
     }
+    console.log ("these are the cities that DIDNT make it to the first round of creating suggestions: ");
+    console.log(excludedCities);
     return excludedCities;
     
 }
 
-console.log(findExcludedCities());
+// var exclCities = findExcludedCities ();
+
+//console.log(findExcludedCities());
 
 
 ////////this works!!!
@@ -137,6 +140,9 @@ console.log(findExcludedCities());
 
 /// function to feed all excluded cities to fetch and see if it works
 
+/// fetch didnt work because it was synchronous.
+/// Vasil showed an asynchronous solution with XMLHttpRequest
+
 
 
 
@@ -145,7 +151,6 @@ function checkCitySpelling (list){
     
     var acceptedSpelling=[];
     var unacceptedSpelling=[];
-    
         
     for (i=0; i<list.length; i++){
         
@@ -153,37 +158,138 @@ function checkCitySpelling (list){
         
         var apiCall = "https://api.openweathermap.org/data/2.5/weather?q="+list[i]+"&APPID=01cc3668bf0bfa5175682312eac66c93"
         
-        fetch(apiCall, {
-            method: "GET",
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
 
-        }).then(function (response) {
-            if (response.ok) {
-                return response.json();
+              acceptedSpelling.push(list[i]);
+          }
+        };
+        xhttp.open("GET", apiCall, false);
+        xhttp.send();
 
-            }
-            throw new Error(response.statusText);
-
-        }).then(function (json) {
-            console.log("success, adding city: " + list[i]);
-            acceptedSpelling.push(list[i]);
-
-        }).catch(function (error) {
-            console.log("Request failed: " + error.message);
-            unacceptedSpelling.push(list[i]);
-
-        });
-        
+        console.log("passed through checking: " + list[i]);
     }
     
     console.log("finished checking spelling");
+    console.log(acceptedSpelling);
     
-    return acceptedSpelling;
+    var citiesToAdd ='';
     
-   
+    for (j=0; j<acceptedSpelling.length; j++){
+        citiesToAdd = citiesToAdd + '"'+acceptedSpelling[j]+'"'+', ';
+    }
+    
+    console.log(citiesToAdd);
     
 }
 
-checkCitySpelling(findExcludedCities());
+//checkCitySpelling(findExcludedCities());
+
+// okay this worked 400 cities have passed through the check and we added to "biggestTowns" file
+// ... now I want to get an updated list of excluded cities
+
+
+function findExcludedCitiesAgain (oldExcluded, newAdded){
+    
+    var newExcludedCities=[];
+    
+    for (i=0; i<oldExcluded.length; i++){
+       
+        newExcludedCities.push(oldExcluded[i]);
+        var x = newExcludedCities.length-1;
+        
+        for (j=0; j<newAdded.length; j++){
+        
+            if (newAdded[j]==newExcludedCities[x]){
+                
+                newExcludedCities.splice(x, 1);
+                break;
+            }
+        }
+    }
+    
+    
+    console.log ("these are the cities that DIDNT make it to the first round of creating suggestions: ");
+    console.log(newExcludedCities);
+    
+    return newExcludedCities;
+    
+    
+}    
+
+// document.getElementById("exportDataLol").textContent=findExcludedCitiesAgain(exclCities, bigCitiesTwo);
+
+
+
+///// this function got me a list of 800 cities. Most of them had special characters in their name. 
+
+// I put them into a JS file called theLastOfExcludedCities
+
+// To call them --->  var theLastOfExcludedCities;
+
+console.log("these are teh last cities to be checked: ");
+console.log(theLastOfExcludedCities);
+
+/// i will now run them through the fetching function again
+
+
+
+function checkCitySpellingAgain (list){
+    
+    var acceptedSpelling=[];
+        
+    for (i=0; i<list.length; i++){
+        
+        console.log("checking city: " + list[i]);
+        
+        var apiCall = "https://api.openweathermap.org/data/2.5/weather?q="+list[i]+"&APPID=2c36662239fe2e8cd2c56fb2e011947a";
+//this is GERALDINE'S key        
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+              
+              console.log(this.responseText);
+              acceptedSpelling.push(list[i]);
+          }
+        };
+        xhttp.open("GET", apiCall, false);
+        xhttp.send();
+
+        console.log("passed through checking: " + list[i]);
+    }
+    
+    console.log("finished checking spelling");
+    console.log(acceptedSpelling);
+    
+    var citiesToAdd ='';
+    
+    for (j=0; j<acceptedSpelling.length; j++){
+        citiesToAdd = citiesToAdd + '"'+acceptedSpelling[j]+'"'+', ';
+    }
+    
+    console.log(citiesToAdd);
+    
+}
+
+// checkCitySpellingAgain(theLastOfExcludedCities);
+
+
+/// aaand I successfully ruined geraldine's api key as well 
+// 430 new additions have been added to latestSuggestions
+
+// I think I'm done here :D
+
+
+
+
+
+
+
+
+
+
+
 
 
 

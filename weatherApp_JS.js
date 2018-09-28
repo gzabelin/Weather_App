@@ -78,6 +78,8 @@ function createAPICall() {
     var userQuery = inputListener.userInput;
     var apiOptions = "&units=metric";
     var myAPIKey = "&APPID=01cc3668bf0bfa5175682312eac66c93";
+//    var myAPIKey = "&APPID=2c36662239fe2e8cd2c56fb2e011947a";
+    // Geraldine's key//
     
     return weatherAPI + userQuery + apiOptions + myAPIKey;
 }
