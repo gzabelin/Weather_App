@@ -153,7 +153,7 @@ var displayData = new Vue({
             },
             
             setiframeURL: function (weather) {
-                this.iframeURL ="http://maps.google.com/maps?q=" + weather.name + "+" + weather.sys.country + "&z=10&output=embed"
+                this.iframeURL ="https://maps.google.com/maps?q=" + weather.name + "+" + weather.sys.country + "&z=10&output=embed"
                 return this.iframeURL;
             },
             
